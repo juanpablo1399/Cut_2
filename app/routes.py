@@ -408,3 +408,82 @@ def create_team_stats_bulk(team_stats: List[TeamStatCreate]):
     finally:
         cursor.close()
         conn.close()
+
+
+#querys
+
+@router.get("/Query1/", tags=["Query1: Get player stats by game id"])
+def get_player_stats_by_game_id(game_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        query = f"SELECT * FROM player_stats WHERE game_id = {game_id}"
+        cursor.execute(query)
+        player_stats = cursor.fetchall()
+        return [PlayerStat(**stat) for stat in player_stats]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cursor.close()
+        conn.close()
+
+@router.get("/Query2/", tags=["Query2: Get team stats by game id"])
+def get_team_stats_by_game_id(game_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        query = f"SELECT * FROM team_stats WHERE game_id = {game_id}"
+        cursor.execute(query)
+        team_stats = cursor.fetchall()
+        return [TeamStat(**stat) for stat in team_stats]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cursor.close()
+        conn.close()
+
+@router.get("/Query3/", tags=["Query3: Get all games by team id"])
+def get_all_games_by_team_id(team_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        query = f"SELECT * FROM games WHERE home_team_id = {team_id} OR away_team_id = {team_id}"
+        cursor.execute(query)
+        games = cursor.fetchall()
+        return [Game(**game) for game in games]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cursor.close()
+        conn.close()
+
+@router.get("/Query4/", tags=["Query4: Get all players by team id"])
+def get_all_players_by_team_id(team_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        query = f"SELECT * FROM players WHERE team_id = {team_id}"
+        cursor.execute(query)
+        players = cursor.fetchall()
+        return [Player(**player) for player in players]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cursor.close()
+        conn.close()
+
+@router.get("/Query5/", tags=["Query5: Get all coaches by team id"])
+def get_all_coaches_by_team_id(team_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        query = f"SELECT * FROM coaches WHERE team_id = {team_id}"
+        cursor.execute(query)
+        coaches = cursor.fetchall()
+        return [Coach(**coach) for coach in coaches]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cursor.close()
+        conn.close()
+
