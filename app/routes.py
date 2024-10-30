@@ -487,3 +487,8 @@ def get_all_coaches_by_team_id(team_id: int):
         cursor.close()
         conn.close()
 
+@router.get("/advanced/team-performance/", tags=["Advanced Queries"])
+def get_team_performance_stats(team_id: int):
+    ...
+
+
