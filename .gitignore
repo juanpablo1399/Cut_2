@@ -81,3 +81,5 @@ docs/_build/
 
 # Archivos de mypy
 .mypy_cache/
+
+data.json
